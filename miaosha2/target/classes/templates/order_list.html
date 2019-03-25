@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/Util.js}"></script>
+<script type="text/javascript" th:src="@{/js/constant.js}"></script>
+
+</head>
+<body>
+<p th:text="手机号：+ ${user.id}"></p>
+<script>
+$(function(){
+	console.log('CURR_YEAR--'+Constant.CURR_YEAR);
+	console.log('NEXT_YEAR--'+Constant.NEXT_YEAR);
+	console.log('MONTH--'+Constant.CURR_MONTH);
+	console.log('MONTH--'+Constant.PRE_MONTH);
+	console.log('NEXT_YEAR--'+Constant.NEXT_YEAR);
+	console.log('StringUtil--'+StringUtil.isEmpty(''));
+	var obj={};
+	var array= new Array();
+	console.log("obj",dataUtils.objIsEmpty(obj));
+	console.log("array",dataUtils.arrayIsEmpty(array));
+})
+</script>
+</body>
+</html>

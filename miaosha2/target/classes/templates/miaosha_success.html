@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/Util.js}"></script>
+<script type="text/javascript" th:src="@{/js/constant.js}"></script>
+
+</head>
+<body>
+<table class="layui-table" lay-even="" lay-skin="nob">
+  <colgroup>
+    <col width="150">
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>商品名称</th>
+      <th>商品价格</th>
+      <th>商品数量</th>
+      <th>订单来源</th>
+      <th>订单状态</th>
+    </tr> 
+  </thead>
+  <tbody>
+    <tr >
+      <td th:text="${orderInfo.goodsName}"></td>
+      <td th:text="${orderInfo.goodsPrice}"></td>
+      <td th:text="${orderInfo.goodsCount}"></td>
+      <td th:text="${orderInfo.orderChannel}"></td>
+       <td th:text="${orderInfo.status}"></td>
+    </tr>
+  </tbody>
+</table> 
+<script>
+
+</script>
+</body>
+</html>

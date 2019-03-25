@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+<script type="text/javascript" th:src="@{/js/Util.js}"></script>
+<script type="text/javascript" th:src="@{/js/constant.js}"></script>
+
+</head>
+<body>
+<div class="layui-container" style="padding-top: 50px">
+	<div class="layui-row">
+    <div class="layui-col-xs5" style="text-align: center;">
+      <div ><img style="width: 60%;height: 60%" th:src="@{${goods.goodsImg}}"></div>
+    </div>
+    <div class="layui-col-xs7 ">
+     <h3 style="font-weight:bold;" th:text="${goods.goodsTitle}"></h3>
+      <h3 style="padding: 20px 0px;"><span>原价：¥ </span><span style="text-decoration:line-through" th:text="${goods.goodsPrice}"></span></h3>
+      <h3 style="padding: 10px 0px;font-weight:bold;font-size: 18px"><span>秒杀价：¥ </span><span style="color:red;" th:text="${goods.miaoshaPrice}"></span></p>
+      <h3 style="padding: 10px 0px;font-weight:bold;font-size: 18px"><span>开始时间：</span><span th:text="${#dates.format(goods.startDate,'yyyy-MM-dd hh:mm:ss')}"></span> </h3></p>
+       <h3 style="padding: 10px 0px;font-weight:bold;font-size: 18px">
+      <span>结束时间：</span><span th:text="${#dates.format(goods.endDate,'yyyy-MM-dd hh:mm:ss')}"></span>
+      </h3>
+      <input type="hidden" name="seconds" id="seconds"  th:value="${remainSeconds}">
+      <input type="hidden" name="end" id="end"  th:value="${endDate}">
+      <h3 style="padding: 10px 0px;font-weight:bold;font-size: 18px"><span>距离开始时：</span><span id="time"></span></h3>
+      <h3 style="padding: 10px 0px;"> 
+      
+	    <!--   <button id="btn" th:if = "${miaoshaStatus} eq '0'" style="background-color:#F58E46;color:white; " class="layui-btn layui-btn-fluid layui-btn-danger layui-btn-disabled">
+	      	未开始
+	      </button> -->
+	      <button id="btn" type="button" onclick="doMiaosha()"   class="layui-btn layui-btn-fluid layui-btn-danger ">
+	      	进行中
+	      </button>
+	     <!--  <button id="btn" th:if = "${miaoshaStatus} eq '2'" style="background-color: #cccc;color:white"  class="layui-btn layui-btn-fluid layui-btn-danger layui-btn-disabled" >
+	      	已结束
+	      </button> -->
+	      <input id="id" type="hidden"  th:value="${id}">
+	      <input id="goodsId" type="hidden"  th:value="${goods.goodsId}">
+   <button id="layerDemo" data-method="notice" class="layui-btn">配置一个透明的询问框</button>
+      </h3>
+    </div>
+  </div>
+</div>
+
+<table class="layui-table" lay-even="" lay-skin="nob">
+  <thead>
+    <tr>
+      <th></th>
+    </tr> 
+  </thead>
+</table> 
+<script>
+var interval={};
+$(function(){
+	
+	showTime();
+	interval = setInterval(showTime,1000);
+	
+})
+function doMiaosha(){
+	var id = $("#id").val();
+	var goodsId = $("#goodsId").val();
+	var param = {"id":id,"goodsId":goodsId};
+	$.ajxpost('/miaosha/do_miaosha',param,function(result){
+		if(result.data == 0){
+			alert("订单排队中...");
+			miaoshResult(param);
+		}else{
+			alert(result.msg)
+		}
+	},function(e){
+		
+	});
+}
+
+function miaoshResult(obj){
+	$.ajxpost('/miaosha/miaoshaResult',obj,function(result){
+		if(result.data == 0){
+			miaoshResult(obj);
+		}else if(result.data == 1) {
+			alert("秒杀成功！");
+		}else if(result.data == -1) {
+			alert("库存不足，秒杀失败！");
+		}else{
+			alert(result.msg);
+		}
+	},function(){});
+}
+function showTime(){
+	var remainSeconds = $("#seconds").val();
+	var currtime = new Date().getTime();
+	var end = $("#end").val();
+	var day = parseInt(remainSeconds/60/60/24);
+	var  hour = parseInt(remainSeconds/60/60 %24);
+	var minute = parseInt(remainSeconds/60 %60);
+	var seconds = parseInt(remainSeconds % 60);
+	$("#time").text("还剩 " + day + " 天 " + hour + " 时 " + minute + " 分 " + (seconds>=0?seconds:0) + " 秒 ");
+	//$("#btn").attr('disabled','true');
+	if(remainSeconds > 0){
+			remainSeconds--;
+		$("#seconds").val(remainSeconds);
+		if(remainSeconds == 0){
+			//$("#btn").text("进行中");
+			//if($("#btn").hasClass('layui-btn-disabled')){
+			//	$("#btn").removeClass('layui-btn-disabled');
+			//	$("#btn").attr('disabled','');
+			//}
+		}
+	}else if(end-currtime < 0){
+			//if(!$("#btn").hasClass('layui-btn-disabled')){
+			//	$("#btn").addClass('layui-btn-disabled');
+			//	$("#btn").css({'background-color':'#cccc','color':'white'});
+			//	$("#btn").text('已结束');
+			//	$("#btn").attr('disabled','true');
+			//}
+			clearInterval(interval);
+			return ;
+		
+	}
+}
+
+layui.use('layer', function(){ //独立版的layer无需执行这一句
+	  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+	  
+	  //触发事件
+	  var active = {
+		notice: function(){
+	      //示范一个公告层
+	      layer.open({
+	        type: 1
+	        ,title: false //不显示标题栏
+	        ,closeBtn: false
+	        ,area: '300px;'
+	        ,shade: 0.8
+	        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+	        ,btn: ['火速围观', '残忍拒绝']
+	        ,btnAlign: 'c'
+	        ,moveType: 1 //拖拽模式，0或者1
+	        ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>layer ≠ layui<br><br>layer只是作为Layui的一个弹层模块，由于其用户基数较大，所以常常会有人以为layui是layerui<br><br>layer虽然已被 Layui 收编为内置的弹层模块，但仍然会作为一个独立组件全力维护、升级。<br><br>我们此后的征途是星辰大海 ^_^</div>'
+	        ,success: function(layero){
+	          var btn = layero.find('.layui-layer-btn');
+	          btn.find('.layui-layer-btn0').attr({
+	            href: 'http://www.layui.com/'
+	            ,target: '_blank'
+	          });
+	        }
+	      });
+	    }
+	   
+	  };
+	  
+	  $('#layerDemo').on('click', function(){
+	    var othis = $(this), method = othis.data('method');
+	    active[method] ? active[method].call(this, othis) : '';
+	  });
+	  
+	});
+</script>
+</body>
+</html>

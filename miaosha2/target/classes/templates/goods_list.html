@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/Util.js}"></script>
+<script type="text/javascript" th:src="@{/js/constant.js}"></script>
+
+</head>
+<body>
+<table class="layui-table" lay-even="" lay-skin="nob">
+  <colgroup>
+    <col width="150">
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>商品名称</th>
+      <th>商品图片</th>
+      <th>商品价格</th>
+      <th>秒杀价</th>
+      <th>库存</th>
+      <th>商品详情</th>
+    </tr> 
+  </thead>
+  <tbody>
+    <tr th:each="good ,goodStat : ${goodsList}">
+      <td th:text="${good.goodsName}"></td>
+      <td><img th:src="@{${good.goodsImg}}"></td>
+      <td th:text="${good.goodsPrice}"></td>
+      <td th:text="${good.miaoshaPrice}"></td>
+      <td th:text="${good.stockCount}"></td>
+      <td><a style="color:blue;" th:href="@{/goods/detail/}+${good.id}">详情</a></td>
+    </tr>
+  </tbody>
+</table> 
+<script>
+
+
+
+</script>
+</body>
+</html>
