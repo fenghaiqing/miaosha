@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs.student.dao.StClassMapper">
+  <resultMap id="BaseResultMap" type="com.gs.student.entity.StClass">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="TEACHER_NAME" jdbcType="VARCHAR" property="teacherName" />
+    <result column="TEACHER_NUM" jdbcType="VARCHAR" property="teacherNum" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="TEACHER_PHONE" jdbcType="VARCHAR" property="teacherPhone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CLASS_NAME, TEACHER_NAME, TEACHER_NUM, CREATE_DATE, UPDATE_DATE, TEACHER_PHONE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from st_class
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from st_class
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gs.student.entity.StClass">
+    insert into st_class (ID, CLASS_NAME, TEACHER_NAME, 
+      TEACHER_NUM, CREATE_DATE, UPDATE_DATE, 
+      TEACHER_PHONE)
+    values (#{id,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR}, 
+      #{teacherNum,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{teacherPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gs.student.entity.StClass">
+    insert into st_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="teacherName != null">
+        TEACHER_NAME,
+      </if>
+      <if test="teacherNum != null">
+        TEACHER_NUM,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="teacherPhone != null">
+        TEACHER_PHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherNum != null">
+        #{teacherNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherPhone != null">
+        #{teacherPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gs.student.entity.StClass">
+    update st_class
+    <set>
+      <if test="className != null and className !=''">
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null and teacherName !=''">
+        TEACHER_NAME = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherNum != null and teacherNum !=''">
+        TEACHER_NUM = #{teacherNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherPhone != null and teacherPhone !=''">
+        TEACHER_PHONE = #{teacherPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gs.student.entity.StClass">
+    update st_class
+    set CLASS_NAME = #{className,jdbcType=VARCHAR},
+      TEACHER_NAME = #{teacherName,jdbcType=VARCHAR},
+      TEACHER_NUM = #{teacherNum,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      TEACHER_PHONE = #{teacherPhone,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="select" parameterType="com.gs.student.entity.StClass" resultMap="BaseResultMap">
+  select a.* from(
+    select * from st_class
+  where 1=1
+   <if test="teacherName != null and teacherName != '' ">
+       and TEACHER_NAME  like concat(concat('%',#{teacherName}),'%')
+      </if>
+       <if test="className != null and className != '' ">
+       and CLASS_NAME like concat(concat('%',#{className}),'%') 
+      </if>
+       order by CLASS_NAME ,id
+  		) a limit  #{start},#{pageSize}
+  </select>
+  <select id="selectcount" parameterType="com.gs.student.entity.StClass" resultType="java.lang.Long">
+  select count(1) from st_class
+  where 1=1
+   <if test="teacherName != null and teacherName != '' ">
+       and TEACHER_NAME  like concat(concat('%',#{teacherName}),'%')
+      </if>
+       <if test="className != null and className != '' ">
+       and CLASS_NAME like concat(concat('%',#{className}),'%') 
+      </if>
+  </select>
+  <select id="getAllClass" resultMap="BaseResultMap">
+  select class_name,id from st_class
+  </select>
+</mapper>

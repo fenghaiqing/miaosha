@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs.student.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.gs.student.entity.Student">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="CLASS_ID" jdbcType="INTEGER" property="classId" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="DORM_ID" jdbcType="INTEGER" property="dormId" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="AGE" jdbcType="INTEGER" property="age" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+     <result column="STD_NUMBER" jdbcType="VARCHAR" property="stdNumber" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, EMAIL, CLASS_ID, PHONE, DORM_ID, SEX, AGE, CREATE_DATE, UPDATE_DATE, CLASS_NAME,STD_NUMBER
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gs.student.entity.Student">
+    insert into student (ID, NAME, EMAIL, 
+      CLASS_ID, PHONE, DORM_ID, 
+      SEX, AGE, CREATE_DATE, 
+      UPDATE_DATE, CLASS_NAME,std_number)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{classId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{dormId,jdbcType=INTEGER}, 
+      #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{className,jdbcType=VARCHAR},#{stdNumber})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gs.student.entity.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="classId != null">
+        CLASS_ID,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="dormId != null">
+        DORM_ID,
+      </if>
+      <if test="sex != null">
+        SEX,
+      </if>
+      <if test="age != null">
+        AGE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="stdNumber != null">
+        std_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="dormId != null">
+        #{dormId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+        <if test="stdNumber != null">
+        #{stdNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gs.student.entity.Student">
+    update student
+    <set>
+      <if test="name != null and name !='' ">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email !='' ">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        CLASS_ID = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null and phone !=''">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="dormId != null">
+        DORM_ID = #{dormId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null and sex !=''">
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        AGE = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="className != null and className !='' ">
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+       <if test="stdNumber != null and stdNumber !=''">
+        std_number = #{stdNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gs.student.entity.Student">
+    update student
+    set NAME = #{name,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      CLASS_ID = #{classId,jdbcType=INTEGER},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      DORM_ID = #{dormId,jdbcType=INTEGER},
+      SEX = #{sex,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+       std_number = #{stdNumber,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="query" parameterType="com.gs.student.entity.Student" resultType="com.gs.student.entity.Student">
+  	select a.* from (select s.NAME name,s.CLASS_ID classId,s.PHONE phone
+  	,s.DORM_ID dormId,s.SEX sex,s.AGE age,s.std_number stdNumber, s.id id,
+  	d.name dormName,c.CLASS_NAME className,c.TEACHER_NAME teacherName from student s 
+  	left join st_dorm d on s.DORM_ID =d.id 
+  	LEFT JOIN st_class c on s.CLASS_ID =c.ID  
+  	where 1=1
+  	 <if test="classId != null">
+        and s.CLASS_ID = #{classId,jdbcType=INTEGER}
+      </if>
+       <if test="name != null and name !='' ">
+        and s.name like concat(concat('%',#{name}),'%') 
+      </if>
+       <if test="dormId != null">
+        and s.DORM_ID = #{dormId,jdbcType=INTEGER}
+      </if>
+       <if test="sex != null and sex != '' ">
+        and s.SEX = #{sex,jdbcType=VARCHAR}
+      </if>
+  	 order by std_number,id )a limit  #{start},#{pageSize}
+  </select>
+    <select id="selectCount" parameterType="com.gs.student.entity.Student" resultType="java.lang.Long">
+  	select count(1) from student
+  	where 1=1
+  	 <if test="classId != null">
+        and CLASS_ID = #{classId,jdbcType=INTEGER}
+      </if>
+       <if test="name != null and name != '' ">
+        and name like concat(concat('%',#{name}),'%') 
+      </if>
+       <if test="dormId != null">
+        and DORM_ID = #{dormId,jdbcType=INTEGER}
+      </if>
+       <if test="sex != null and sex != '' ">
+        and SEX = #{sex,jdbcType=VARCHAR}
+      </if>
+  </select>
+</mapper>

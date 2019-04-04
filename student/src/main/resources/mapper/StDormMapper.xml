@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs.student.dao.StDormMapper">
+  <resultMap id="BaseResultMap" type="com.gs.student.entity.StDorm">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MAX_NUM" jdbcType="INTEGER" property="maxNum" />
+    <result column="SURPLUS_NUM" jdbcType="INTEGER" property="surplusNum" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+     <result column="sex" jdbcType="VARCHAR" property="sex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, MAX_NUM, SURPLUS_NUM, CREATE_DATE, UPDATE_DATE,sex
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from st_dorm
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from st_dorm
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gs.student.entity.StDorm">
+    insert into st_dorm (ID, NAME, MAX_NUM, 
+      SURPLUS_NUM, CREATE_DATE, UPDATE_DATE,sex
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{maxNum,jdbcType=INTEGER}, 
+      #{surplusNum,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      ,#{sex})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gs.student.entity.StDorm">
+    insert into st_dorm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="maxNum != null">
+        MAX_NUM,
+      </if>
+      <if test="surplusNum != null">
+        SURPLUS_NUM,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+       <if test="sex != null">
+        sex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNum != null">
+        #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="surplusNum != null">
+        #{surplusNum,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="sex != null">
+        #{sex},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gs.student.entity.StDorm">
+    update st_dorm
+    <set>
+      <if test="name != null and name !=''">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNum != null">
+        MAX_NUM = #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="surplusNum != null">
+        SURPLUS_NUM = #{surplusNum,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="sex != null and sex !=''">
+        sex = #{sex},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gs.student.entity.StDorm">
+    update st_dorm
+    set NAME = #{name,jdbcType=VARCHAR},
+      MAX_NUM = #{maxNum,jdbcType=INTEGER},
+      SURPLUS_NUM = #{surplusNum,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+       sex = #{sex,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="select" parameterType="com.gs.student.entity.StDorm" resultMap="BaseResultMap">
+  select a.* from(select * from st_dorm
+  where 1=1
+   <if test="sex != null and sex != '' ">
+       and sex = #{sex}
+      </if>
+       <if test="name != null and name !='' ">
+       and name like concat(concat('%',#{name}),'%') 
+      </if>
+       order by name,sex,id )a limit  #{start},#{pageSize}
+  </select>
+    <select id="selectcount" parameterType="com.gs.student.entity.StDorm" resultType="java.lang.Long">
+  select count(1) from st_dorm
+  where 1=1
+   <if test="sex != null and sex != '' ">
+       and sex = #{sex}
+      </if>
+       <if test="name != null and name !='' ">
+       and name like concat(concat('%',#{name}),'%') 
+      </if>
+  </select>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs.student.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.gs.student.entity.User">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="SALT" jdbcType="VARCHAR" property="salt" />
+    <result column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ACCOUNT, NAME, PASSWORD, SALT, ROLE_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gs.student.entity.User">
+    insert into user (ID, ACCOUNT, NAME, 
+      PASSWORD, SALT, ROLE_ID
+      )
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gs.student.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="salt != null">
+        SALT,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gs.student.entity.User">
+    update user
+    <set>
+      <if test="account != null and account != '' ">
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name !='' ">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password !='' ">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null and salt !=''">
+        SALT = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gs.student.entity.User">
+    update user
+    set ACCOUNT = #{account,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      SALT = #{salt,jdbcType=VARCHAR},
+      ROLE_ID = #{roleId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectAllUser" parameterType="com.gs.student.entity.User" resultMap="BaseResultMap">
+  	select a.* from (select *from user where 1=1
+  	<if test="name !=null and name !=''">
+  		and name like concat(concat('%',#{name}),'%') 
+  	</if> 
+  		<if test="roleId !=null">
+  		and role_id = #{roleId}
+  	</if> 
+  	 order by id ) a limit  #{start},#{pageSize}
+  </select>
+    <select id="selectcount" parameterType="com.gs.student.entity.User" resultType="java.lang.Long">
+  	select count(1) from user where 1=1
+  	<if test="name !=null and name !=''">
+  		and name like concat(concat('%',#{name}),'%') 
+  	</if> 
+  		<if test="roleId !=null">
+  		and role_id = #{roleId}
+  	</if> 
+  </select>
+</mapper>

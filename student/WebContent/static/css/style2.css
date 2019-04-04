@@ -1,0 +1,104 @@
+  nav.navbar{
+  background: linear-gradient(to left, #7b4397, #2196f3);
+  }
+  .btn-blue {
+      border-color: #3188E4;
+    background: transparent;
+    color: #3188E4;
+    border-radius: 15px;
+}
+  .btn-blue:hover,
+.btn-blue:focus {
+    border-color: #3188E4;
+    background-color: #3188E4;
+    color: #fff;
+    cursor: pointer;
+   
+}
+  .btn-outline-success {
+       color: #79D799;
+    background-color: transparent;
+    background-image: none;
+    border-color: #79D799;
+     border-radius: 15px;
+}
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: #79D799;
+    border-color: #79D799;
+}
+outline-success:focus {
+    box-shadow: none;
+}
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: none;
+}
+
+/**É¾³ý°´Å¥**/
+.btn-sm-del {
+    background-color: transparent;
+    color: #e65251;
+    cursor: pointer;
+    border: 1px solid #e65251;
+    border-radius: 10px;
+}
+.btn-sm-del:hover{
+    background-color: #e65251;
+    color:#fff;
+    border-color: #e65251;
+}
+.btn-sm-update{
+    background-color: transparent;
+    color: #308ee0;
+    border:1px solid rgba(48, 142, 224, 0.2);
+     border-radius: 10px;
+    cursor: pointer;
+}
+.btn-sm-update:hover{
+    color: #308ee0;
+    background-color: rgba(48, 142, 224, 0.2);
+    border-color: rgba(48, 142, 224, 0.2);
+}
+
+.btn-outline-secondary {
+    color: #ccc;
+    background-color: transparent;
+    background-image: none;
+    border-color: #e5e5e5;
+    border-radius: 15px;
+}
+.btn-outline-secondary:hover{
+	     color: #cccccc;
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+}
+
+.btn-primary {
+        color: #308ee0;
+    background-color: transparent;
+    background-image: none;
+    border-color: #308ee0;
+}
+.btn-primary:hover{
+	   color: #fff;
+    background-color: #308ee0;
+    border-color: #308ee0;
+}
+  
+  .btn-secondary {
+    background-color: transparent;
+    background-image: none;
+       border-color: #c7d1d5;
+    color: #c7d1d5;
+}  
+ .btn-secondary:hover{
+     border-color: #c7d1d5;
+    color: #c7d1d5;
+    background-color: #f3f5f6;
+ }
+ 
+     nav.side-navbar .list-unstyled li.active a{background: linear-gradient(to left, #7c8ce4, #2196f3);
+    border-left: 4px solid #7b4397;
+    color: #fff;
+}
